@@ -52,9 +52,11 @@
         const div = document.createElement('div');
         div.className = 'polaroid visible';
         div.innerHTML = `
-          <img src="${photo.url}" alt="${photo.label || ''}" loading="lazy" />
-          <span class="polaroid-label">${photo.label || ''}</span>
-        `;
+  <img src="${photo.url}" alt="${photo.label || ''}" loading="lazy" 
+    onclick="openLightbox('${photo.url}', '${photo.label || ''}')" 
+    style="cursor:zoom-in;" />
+  <span class="polaroid-label">${photo.label || ''}</span>
+`;
         grid.appendChild(div);
       });
     }
@@ -86,3 +88,69 @@
 
     /* ── Init ── */
     loadPhotos();
+
+    /* ── WhatsApp form submission ── */
+    function sendToWhatsApp() {
+      const name = document.querySelector('input[type="text"]').value;
+      const email = document.querySelector('input[type="email"]').value;
+      const message = document.querySelector('textarea').value;
+
+      if (!name || !email || !message) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      const text = `Hi, my name is ${name} (${email}). ${message}`;
+      const encoded = encodeURIComponent(text);
+      window.open(`https://wa.me/27727218507?text=${encoded}`, '_blank');
+      document.querySelector('input[type="text"]').value = '';
+      document.querySelector('input[type="email"]').value = '';
+      document.querySelector('textarea').value = '';
+    }
+
+    /* ── Modal for booking packages ── */
+    let currentPackage = '';
+    let currentPrice = '';
+
+    function openModal(pkg, price) {
+      currentPackage = pkg;
+      currentPrice = price;
+      document.getElementById('modalPackageName').textContent = pkg + ' · ' + price;
+      document.getElementById('modalName').value = '';
+      const modal = document.getElementById('bookingModal');
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('bookingModal').style.display = 'none';
+    }
+
+    function confirmBooking() {
+      const name = document.getElementById('modalName').value.trim();
+      if (!name) { alert('Please enter your name.'); return; }
+      const text = `Hi, my name is ${name}. I'd like to book ${currentPackage} (${currentPrice}). When are you available?`;
+      window.open(`https://wa.me/27727218507?text=${encodeURIComponent(text)}`, '_blank');
+      closeModal();
+    }
+
+    // close modal on backdrop click
+    document.getElementById('bookingModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    /* ── Lightbox for images ── */
+    function openLightbox(src, label) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxLabel').textContent = label;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
