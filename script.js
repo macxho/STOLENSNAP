@@ -4,7 +4,7 @@
        Columns: id, url, category (text), label (text)
     ───────────────────────────────────── */
     const SUPABASE_URL = 'https://vfsobydjcymnzqkcdkko.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_ikMHTkCu_slRyLeWq-M1dQ_v1r8p4Xh';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmc29ieWRqY3ltbnpxa2Nka2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NTM3ODMsImV4cCI6MjA5ODMyOTc4M30.kZLzuqnXru1SfeE-D0Fa3b_TDCpcrzt4thIKrXKI1A8';
 
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
